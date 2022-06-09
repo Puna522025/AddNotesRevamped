@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card1"
+        style="@style/CardViewStyleShopping"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:stateListAnimator="@anim/raise"
+        android:transitionName="aa">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Click on each item to add details"
+                android:textColor="@color/brightBlueDialog"
+                android:textSize="7sp" />
+
+            <TextView
+                android:id="@+id/itemToBuy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/hint"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="2dp"
+                android:text="Shopping Item.."
+                android:textColor="@color/brightBlueDialog"
+                android:textSize="17sp" />
+
+            <ImageView
+                android:id="@+id/crossLine"
+                android:layout_width="98dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="25dp"
+                android:layout_alignLeft="@+id/itemToBuy"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/completed"
+                android:rotation="350"
+
+                android:visibility="gone" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/isDone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                android:src="@android:drawable/btn_star_big_off"
+                android:tag="off" />
+
+            <ImageView
+                android:id="@+id/imgDeleteNote"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="68dp"
+                android:layout_marginTop="5dp"
+                android:src="@android:drawable/ic_menu_delete"
+                android:visibility="visible" />
+
+
+            <RelativeLayout
+                android:id="@+id/rlExtraShoppingParams"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/itemToBuy"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/isDone"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="Value: "
+                    android:textColor="@color/brightBlueDialog"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="Count: "
+                    android:textColor="@color/brightBlueDialog"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/totalValueofItems"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="3dp"
+                    android:text="Total Value: "
+                    android:textColor="@color/brightBlueDialog"
+                    android:textSize="13sp" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

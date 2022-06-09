@@ -1,0 +1,56 @@
+ext {
+    androidMinSdkVersion = 28
+    androidTargetSdkVersion = 30
+    androidBuildToolsVersion = '30.0.3'
+    androidPluginVersion = '7.0.4'
+
+    // Testing
+    mockitoLibraryVersion = '3.2.0'
+    mockkLibraryVersion = '1.10.0'
+    mockWebServerVersion = '4.8.0'
+    assertJLibraryVersion = '1.7.1'
+    jUnitVersion = '4.12'
+    testRunnerVersion = '1.2.0'
+    expressoVersion = '3.2.0'
+    coreTestingVersion = '1.0.0'
+    junitParamsLibraryVersion = '1.0.6'
+    jUnitExtVersion = '1.1.1'
+
+    //Network
+    retrofitVersion = '2.7.1'
+    okhttpVersion = '4.9.0'
+    okhttpLoggingVersion = '4.4.0'
+
+    //View
+    appCompactVersion = '1.4.1'
+    constraintLayoutVersion = '2.1.3'
+    viewModelVersion = '2.1.0'
+    recyclerViewVersion = '1.2.1'
+    cardview = "1.0.0"
+    materialVersion = "1.0.0"
+
+    rxJavaVersion = '2.2.8'
+    rxAndroidVersion = '2.1.1'
+    daggerVersion = '2.28.3'
+    jacksonLibraryVersion = '2.11.2'
+    lottieLibraryVersion = '3.0.7'
+    androidXFragmentVersion = "1.1.0"
+    androidXAnnotationVersion = "1.1.0"
+    androidXLifecycle = "2.2.0"
+    multiLevelListViewVersion = "1.0.1"
+    lifecycle_version = "2.1.0"
+    androidXNavigationVersion = "2.3.1"
+
+    //Kotlin
+    kotlinVersion = '1.6.20'
+    kotlinCore = "1.2.0"
+
+    //HILT
+    hilt_version = "2.37"
+    leakCanaryVersion = '2.5'
+    daggerVersion = '2.22'
+    daggerAndroidVersion = '2.22'
+    viewModelVersion = '2.1.0'
+
+    glideVersion = "4.13.0"
+}

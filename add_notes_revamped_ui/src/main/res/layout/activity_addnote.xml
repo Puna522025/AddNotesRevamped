@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".editnotes.view.EditNotesView"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/add_note_coordinator_layout">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_new">
+    </include>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        app:elevation="10dp"
+        app:backgroundTint="@color/accent"
+        app:pressedTranslationZ="12dp"
+        app:rippleColor="@color/colorFAB1"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/save_white" />
+
+    <include layout="@layout/content_addnote" />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-6529573734445559/8847855027">
+    </com.google.android.gms.ads.AdView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

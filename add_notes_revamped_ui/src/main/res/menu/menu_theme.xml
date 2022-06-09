@@ -1,0 +1,36 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+
+    <item
+        android:id="@+id/action_dropBox"
+        android:orderInCategory="290"
+        android:title="DropBox"
+        android:icon="@drawable/dropbox_icon"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_theme"
+        android:icon="@drawable/theme1"
+        android:orderInCategory="200"
+        android:title="@string/theme"
+        app:showAsAction="ifRoom">
+
+    </item>
+
+    <item
+        android:id="@+id/action_about_us"
+        android:orderInCategory="200"
+        android:title="About Us"
+        app:showAsAction="never">
+    </item>
+
+    <item
+        android:id="@+id/action_rate_us"
+        android:orderInCategory="200"
+        android:title="Rate Us"
+        app:showAsAction="never">
+    </item>
+
+</menu>

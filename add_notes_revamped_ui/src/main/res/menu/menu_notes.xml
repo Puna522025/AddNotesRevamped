@@ -1,0 +1,42 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+
+    <item
+        android:id="@+id/action_font"
+        android:icon="@drawable/font4"
+        android:orderInCategory="280"
+        android:title="@string/fonts"
+        app:showAsAction="always">
+
+    </item>
+
+    <item
+        android:id="@+id/action_color"
+        android:icon="@drawable/theme1"
+        android:orderInCategory="270"
+        android:title="@string/theme"
+        app:showAsAction="always">
+
+    </item>
+
+    <item
+        android:id="@+id/action_alert"
+        android:icon="@drawable/alarm2"
+        android:orderInCategory="180"
+        android:title="@string/alertMe"
+        app:showAsAction="always">
+
+    </item>
+
+    <item
+        android:id="@+id/action_lock"
+        android:icon="@drawable/locknew"
+        android:orderInCategory="290"
+        android:title="@string/lock_note"
+        app:showAsAction="always">
+
+    </item>
+
+</menu>

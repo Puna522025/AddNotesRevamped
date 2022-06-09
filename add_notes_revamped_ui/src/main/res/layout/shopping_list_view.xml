@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="65dp"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_shopping">
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/input_titleShopping"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/titleShopping"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Title"
+            android:singleLine="true" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/alertText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:paddingBottom="10dp"
+        android:paddingRight="3dp"
+        android:text="@string/alertDefaultValue"
+        android:textColor="@android:color/black"
+        android:textStyle="bold|italic"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/itemBuyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/input_titleShopping">
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_etNoteText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/etNoteText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Item to buy"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </RelativeLayout>
+
+    <view
+        android:id="@+id/listView"
+        class="androidx.recyclerview.widget.RecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/itemBuyLayout"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="45dp" />
+
+    <TextView
+        android:id="@+id/totalSumItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Total Amount :"
+        android:textColor="#2ECCFA"
+        android:textSize="18sp"
+        android:visibility="visible"/>
+</RelativeLayout>

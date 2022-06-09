@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources><color name="colorFAB1">#C9B807</color>
+    <color name="colorFAB2">#D62A2A</color>
+    <color name="colorFAB3">#E73C3C</color>
+    <color name="colorFAB4">#FA4F4F</color>
+
+    <color name="primary">#1565C0</color>
+    <color name="primary_dark">#064C9C</color>
+    <color name="primary_light">#FFE0B2</color>
+    <color name="accent">#B71C1C</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#727272</color>
+    <color name="icons">#FFFFFF</color>
+    <color name="divider">#B6B6B6</color>
+    <color name="brightBlueDialog">#2ECCFA</color>
+    <color name="setfontcolor">#818181</color>
+    <color name="dropBox_color">#045CA5</color>
+
+
+
+
+    <!--Default OrangeRed theme //Superman-->
+    <color name="OrangeRedToolBar">#1565C0</color>
+    <color name="OrangeRedStatusBar">#064C9C</color>
+    <color name="OrangeRedAccent">#B71C1C</color>
+    <color name="OrangeRedFab2">#D62A2A</color>
+    <color name="OrangeRedFab3">#E73C3C</color>
+    <color name="OrangeRedFab4">#FA4F4F</color>
+
+                    <!--Red Yellow Theme    //IronMan-->
+    <color name="redYellowToolBar">#e53935</color>
+    <color name="redYellowStatusBar">#d32f2f</color>
+    <color name="redYellowAccent">#E6B410</color>
+    <color name="redYellowFab2">#F5C629</color>
+    <color name="redYellowFab3">#FBD34F</color>
+    <color name="redYellowFab4">#FFDC66</color>
+
+    <!--Purple Green Theme  //HULK-->
+    <color name="PurpleGreenToolBar">#9BD55A</color>
+    <color name="PurpleGreenStatusBar">#8bc34a</color>
+    <color name="PurpleGreenAccent">#7b1fa2</color>
+    <color name="PurpleGreenFab2">#9136B8</color>
+    <color name="PurpleGreenFab3">#A54ECB</color>
+    <color name="PurpleGreenFab4">#BA6CDC</color>
+
+    <!--Pink Yellow Theme  //Cap America-->
+    <color name="PinkYellowToolBar">#b71c1c</color>
+    <color name="PinkYellowStatusBar">#911111</color>
+    <color name="PinkYellowAccent">#1565C0</color>
+    <color name="PinkYellowFab2">#317DD4</color>
+    <color name="PinkYellowFab3">#4690E5</color>
+    <color name="PinkYellowFab4">#60A5F3</color>
+
+    <!--Green Brown Theme   //BatMan-->
+    <color name="GreenBrownToolBar">#151414</color>
+    <color name="GreenBrownStatusBar">#000000</color>
+    <color name="GreenBrownAccent">#F5B920</color>
+    <color name="GreenBrownFab2">#F7C546</color>
+    <color name="GreenBrownFab3">#FFD464</color>
+    <color name="GreenBrownFab4">#FFDE89</color>
+
+    <!--Blue Theme  //Minions-->
+    <color name="BlueToolBar">#0288D1</color>
+    <color name="BlueStatusBar">#056BA1</color>
+    <color name="BlueAccent">#FADA0C</color>
+    <color name="BlueFab2">#FFE42F</color>
+    <color name="BlueFab3">#FFE84B</color>
+    <color name="BlueFab4">#FFED71</color>
+
+    <!--Pink Theme  //Hello Kitty-->
+    <color name="PinkKittyToolBar">#F06292</color>
+    <color name="PinkKittyStatusBar">#EC407A</color>
+    <color name="PinkKittyAccent">#F8BBD0</color>
+    <color name="PinkKittyFab2">#FED3E2</color>
+    <color name="PinkKittyFab3">#FFE0EB</color>
+    <color name="PinkKittyFab4">#FFEDF4</color>
+
+    <!-- Orange theme-->
+    <color name="OrangeToolBar">#FF9800</color>
+    <color name="OrangeStatusBar">#F57C00</color>
+    <color name="OrangeAccent">#FF5722</color>
+    <color name="OrangeFab2">#FF6E41</color>
+    <color name="OrangeFab3">#FF7C54</color>
+    <color name="OrangeFab4">#FD8C69</color>
+
+    <!-- Deep Purple theme-->
+    <color name="DeepPurpleToolBar">#B39DDB</color>
+    <color name="DeepPurpleStatusBar">#9575CD</color>
+    <color name="DeepPurpleAccent">#212121</color>
+    <color name="DeepPurpleFab2">#5C5C5C</color>
+    <color name="DeepPurpleFab3">#797979</color>
+    <color name="DeepPurpleFab4">#A4A4A4</color>
+
+    <!-- Black Red theme//Deadpool-->
+    <color name="BlackRedToolBar">#101010</color>
+    <color name="BlackRedStatusBar">#000000</color>
+    <color name="BlackRedAccent">#FF2800</color>
+    <color name="BlackRedFab2">#FF3713</color>
+    <color name="BlackRedFab3">#FF4B2B</color>
+    <color name="BlackRedFab4">#FF5E41</color>
+
+    <!-- Neon blue theme//Batman-->
+    <color name="NeonBlueToolBar">#68E702</color>
+    <color name="NeonBlueStatusBar">#60D500</color>
+    <color name="NeonBlueAccent">#FD3C01</color>
+    <color name="NeonBlueFab2">#FD4914</color>
+    <color name="NeonBlueFab3">#FF5623</color>
+    <color name="NeonBlueFab4">#FF5F2E</color>
+
+    <!-- WhiteJoker theme-->
+    <color name="WhiteJokerToolBar">#607C7B</color>
+    <color name="WhiteJokerStatusBar">#536D6B</color>
+    <color name="WhiteJokerAccent">#51522A</color>
+    <color name="WhiteJokerFab2">#6C6F3D</color>
+    <color name="WhiteJokerFab3">#787B45</color>
+    <color name="WhiteJokerFab4">#81844B</color>
+</resources>

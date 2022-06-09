@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card1"
+        style="@style/CardViewStyleMain"
+        android:layout_width="match_parent"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:stateListAnimator="@anim/raise"
+        android:layout_height="wrap_content"
+        app:elevation="15dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardAddNote"
+               style="@style/CardViewStyleMain"
+                android:layout_width="wrap_content"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:stateListAnimator="@anim/raise"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                app:elevation="15dp">
+
+                <RelativeLayout
+                    android:layout_width="150dp"
+                    android:id="@+id/rlNoteSelected"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/imgNote"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/addornot" />
+
+                    <TextView
+                        android:id="@+id/note"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/imgNote"
+                        android:textSize="18sp"
+                        android:textColor="@color/brightBlueDialog"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="2dp"
+                        android:text="Note" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardSopping"
+                style="@style/CardViewStyleMain"
+                android:layout_width="wrap_content"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:stateListAnimator="@anim/raise"
+                android:layout_height="wrap_content"
+                app:elevation="15dp"
+                android:padding="10dp"
+                android:layout_alignParentRight="true">
+
+                <RelativeLayout
+                    android:layout_width="150dp"
+                    android:id="@+id/rlShoppingSelected"
+                    android:layout_height="wrap_content"
+                    >
+
+                    <ImageView
+                        android:id="@+id/imgShopping"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/cart" />
+
+                    <TextView
+                        android:id="@+id/shopping"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/imgShopping"
+                        android:textSize="18sp"
+                        android:layout_margin="2dp"
+                        android:layout_centerHorizontal="true"
+                        android:textColor="@color/brightBlueDialog"
+                        android:text="Shopping List" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>

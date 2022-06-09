@@ -1,0 +1,70 @@
+{
+  "project_info": {
+    "project_number": "110367563847",
+    "firebase_url": "https://addnote-61fb9.firebaseio.com",
+    "project_id": "addnote-61fb9",
+    "storage_bucket": "addnote-61fb9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:110367563847:android:e3a47591fb28e3aa",
+        "android_client_info": {
+          "package_name": "addnote.vnps.addnotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "110367563847-rpvg3v87eb5sdl86se55m4srcc4e99a6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVv0RH5CvWkihAWWpF1tY1XDoTPvwa7S8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "110367563847-rpvg3v87eb5sdl86se55m4srcc4e99a6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-6529573734445559~7371121821"
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:110367563847:android:18ba68c20893c8eb48d162",
+        "android_client_info": {
+          "package_name": "com.addnotes.revamped"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "110367563847-rpvg3v87eb5sdl86se55m4srcc4e99a6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVv0RH5CvWkihAWWpF1tY1XDoTPvwa7S8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "110367563847-rpvg3v87eb5sdl86se55m4srcc4e99a6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

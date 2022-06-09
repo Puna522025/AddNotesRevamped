@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:alpha="0.7"
+    android:background="#E0E0E0">
+
+    <ImageView
+        android:layout_width="205dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/cardView1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/introtext" />
+
+    <View
+        android:id="@+id/dummyView"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_centerInParent="true"
+        android:layout_margin="20dp" />
+
+    <RelativeLayout
+        android:id="@+id/cardView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/dummyView">
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card1"
+            style="@style/CardViewStyle"
+            android:layout_width="115dp"
+            android:layout_height="120dp"
+            android:backgroundTint="#f5ea01"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:stateListAnimator="@anim/raise"
+            android:transitionName="aa">
+
+            <FrameLayout
+                android:id="@+id/notes_frame1"
+                android:layout_width="115dp"
+                android:layout_height="120dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvNotesViewIntro"
+                    android:layout_width="72dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginRight="3dp"
+                    android:text="Add your notes instantly .."
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp" />
+
+            </FrameLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/dummyView">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card2"
+            style="@style/CardViewStyle"
+            android:layout_width="115dp"
+            android:layout_height="120dp"
+            android:backgroundTint="#f93f3e"
+
+            android:foreground="?android:attr/selectableItemBackground"
+            android:stateListAnimator="@anim/raise"
+            android:transitionName="aa">
+
+            <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/notes_frame2"
+                android:layout_width="115dp"
+                android:layout_height="120dp"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/tvNotesViewIntro2"
+                    android:layout_width="85dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="24dp"
+                    android:text="Download your notes &amp; Share them "
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp" />
+
+            </FrameLayout>
+
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+
+
+    <ImageView
+        android:id="@+id/imgTapeNote"
+        android:layout_width="40dp"
+        android:layout_height="22dp"
+        android:layout_alignTop="@+id/cardView1"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="35dp"
+        android:layout_toLeftOf="@+id/dummyView"
+        android:src="@drawable/pinblue" />
+
+
+    <ImageView
+        android:id="@+id/imgTapeNote2"
+        android:layout_width="40dp"
+        android:layout_height="22dp"
+        android:layout_alignTop="@+id/cardView1"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="38dp"
+        android:layout_toRightOf="@+id/dummyView"
+        android:src="@drawable/pinblue" />
+
+    <Button
+        android:id="@+id/skipButton"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button_intro"
+        android:text="Skip"
+        android:textAllCaps="false"
+        android:textColor="#454545"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <!--<TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ADD"
+        android:textSize="15sp"
+        android:id="@+id/tvAdd"
+        android:textColor="@android:color/black"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="65dp"/>-->
+
+    <ImageView
+        android:id="@+id/tvAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="65dp"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/addd" />
+
+    <ImageView
+        android:id="@+id/tvDel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tvAdd"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="65dp"
+        android:layout_marginBottom="35dp"
+        android:src="@drawable/del" />
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tvDel"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="65dp"
+        android:layout_marginBottom="35dp"
+        android:src="@drawable/share" />
+
+    <ImageView
+        android:id="@+id/dropboxtext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="65dp"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/dropboxtext" />
+
+    <ImageView
+        android:id="@+id/themesText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:layout_marginRight="3dp"
+        android:layout_toStartOf="@+id/tvAdd"
+        android:src="@drawable/theme" />
+
+</RelativeLayout>

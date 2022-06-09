@@ -1,0 +1,70 @@
+apply from: '../build-versions.gradle'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-parcelize'
+apply plugin: "androidx.navigation.safeargs"
+apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.gms.google-services'
+
+android {
+    compileSdkVersion androidTargetSdkVersion
+    buildToolsVersion androidBuildToolsVersion
+
+    defaultConfig {
+        multiDexEnabled true
+        minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargetSdkVersion
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+    buildFeatures {
+        viewBinding = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation "junit:junit:${jUnitVersion}"
+    testImplementation "android.arch.core:core-testing:${coreTestingVersion}"
+    testImplementation "org.mockito:mockito-core:${mockitoLibraryVersion}"
+    testImplementation "io.mockk:mockk:${mockkLibraryVersion}"
+    testImplementation "org.assertj:assertj-core:${assertJLibraryVersion}"
+    testImplementation "pl.pragmatists:JUnitParams:${junitParamsLibraryVersion}"
+
+    androidTestImplementation "androidx.test:runner:${testRunnerVersion}"
+    androidTestImplementation "androidx.test.ext:junit:${jUnitExtVersion}"
+
+    implementation "com.google.dagger:hilt-android:${hilt_version}"
+    kapt "com.google.dagger:hilt-compiler:${hilt_version}"
+    kapt "com.google.dagger:hilt-android-compiler:${hilt_version}"
+
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-extensions:${lifecycle_version}"
+    implementation "androidx.fragment:fragment:${androidXFragmentVersion}"
+    implementation "androidx.navigation:navigation-ui-ktx:${androidXNavigationVersion}"
+    implementation "androidx.navigation:navigation-fragment-ktx:${androidXNavigationVersion}"
+
+
+    implementation "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
+    implementation "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}"
+
+    implementation platform('com.google.firebase:firebase-bom:30.1.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+
+    implementation "com.github.bumptech.glide:glide:${glideVersion}"
+    annotationProcessor "com.github.bumptech.glide:compiler:${glideVersion}"
+}
+// ADD THIS AT THE BOTTOM
+
+apply plugin: 'com.google.gms.google-services'

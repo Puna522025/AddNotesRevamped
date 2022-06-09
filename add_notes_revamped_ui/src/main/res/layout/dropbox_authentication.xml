@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@android:color/white"
+    android:id="@+id/dropbox_relative"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_new"/>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/dropBoxIcon"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="80dp"
+                android:src="@drawable/ddropbox_logo" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:id="@+id/tvWelcome"
+                android:textStyle="bold"
+                android:textColor="@color/divider"
+                android:layout_marginLeft="40dp"
+                android:layout_below="@+id/dropBoxIcon"/>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_toRightOf="@+id/tvWelcome"
+                android:id="@+id/ivUser"
+                android:layout_marginLeft="20dp"
+                android:layout_below="@id/dropBoxIcon"/>
+            <Button
+                android:id="@+id/loginBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dropbor_margin_button"
+                android:layout_marginRight="@dimen/dropbor_margin_button"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/ivUser"
+                android:text="@string/sign_in"
+                android:textAllCaps="false"
+                android:background="@drawable/buttonshape"
+                android:textColor="#fff"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/uploadFileBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/loginBtn"
+                android:layout_marginLeft="@dimen/dropbor_margin_button"
+                android:layout_marginRight="@dimen/dropbor_margin_button"
+                android:layout_marginTop="25dp"
+                android:text="@string/upload_notes"
+                android:textAllCaps="false"
+                android:background="@drawable/buttonshape"
+                android:textColor="#fff"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/listFilesBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/uploadFileBtn"
+                android:layout_marginLeft="@dimen/dropbor_margin_button"
+                android:layout_marginRight="@dimen/dropbor_margin_button"
+                android:layout_marginTop="25dp"
+                android:textAllCaps="false"
+                android:text="@string/get_notes"
+                android:background="@drawable/buttonshape"
+                android:textColor="#fff"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/listFilesBtn"
+                android:padding="15dp"
+                android:layout_marginBottom="50dp"
+                android:textSize="13sp"
+                android:textColor="@color/divider"
+                android:text="** We recommend to first download all the notes and then upload them."/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="@dimen/fab_margin"
+                android:src="@drawable/add_white"
+                android:visibility="gone"/>
+
+
+        </RelativeLayout>
+    </ScrollView>
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-6529573734445559/8847855027">
+    </com.google.android.gms.ads.AdView>
+</RelativeLayout>
