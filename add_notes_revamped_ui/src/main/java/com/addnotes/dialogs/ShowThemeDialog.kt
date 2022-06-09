@@ -9,7 +9,7 @@ import android.widget.ImageView
 import com.addnotes.add_notes_revamped_ui.R
 import com.bumptech.glide.Glide
 
-class ShowThemeDialog(context: Context, val themeSelectedListener: ThemeDialogSelectionListener) :
+class ShowThemeDialog(context: Context, private val selectedListener: DialogSelectionListener) :
     Dialog(context), View.OnClickListener {
 
     init {
@@ -85,11 +85,7 @@ class ShowThemeDialog(context: Context, val themeSelectedListener: ThemeDialogSe
         show()
     }
 
-    interface ThemeDialogSelectionListener {
-        fun onThemeSelected(id: Int)
-    }
-
     override fun onClick(view: View?) {
-        themeSelectedListener.onThemeSelected(view?.id!!)
+        selectedListener.onDialogInputSelected(view?.id!!)
     }
 }

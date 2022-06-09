@@ -32,7 +32,12 @@ class HomeViewModel @Inject constructor(val sharedPreferences: SharedPreferences
         return firstRunDetails
     }
 
+    fun updateThemeInPreferences(themeColor: String) {
+        sharedPreferences.edit().putString(MYTHEMECOLOR, themeColor).apply()
+    }
+
     companion object {
         const val PREF_VERSION_CODE_KEY = "version_code"
+        const val MYTHEMECOLOR = "myThemeColor"
     }
 }
