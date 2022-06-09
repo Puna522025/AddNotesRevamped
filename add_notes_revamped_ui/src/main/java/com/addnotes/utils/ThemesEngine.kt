@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 object ThemesEngine {
-    public fun updateThemeColors(
+    fun updateThemeColors(
         context: Context,
         themeColor: String?,
         toolbar: Toolbar?,
@@ -81,11 +81,31 @@ object ThemesEngine {
                 imageBackground?.let {
                     Glide.with(context)
                         .load(imageResourceId)
-                        .centerCrop()
+                        .fitCenter()
                         .into(it)
                 }
                 rlBackgroundNote?.setBackgroundColor(
                     Color.parseColor("#EDEDED")
+                )
+            }
+            // NEON BATMAN
+            context.getString(R.string.neonBlue) -> {
+                toolBarColor = R.color.NeonBlueToolBar
+                statusBarColor = R.color.NeonBlueStatusBar
+                accentColor = R.color.NeonBlueAccent
+                fab2Color = R.color.NeonBlueFab2
+                fab3Color = R.color.NeonBlueFab3
+                fab4Color = R.color.NeonBlueFab4
+                imageResourceId = R.drawable.xa_c
+                isNoBackgroundThemeSelected = true
+                imageBackground?.let {
+                    Glide.with(context)
+                        .load(imageResourceId)
+                        .fitCenter()
+                        .into(it)
+                }
+                rlBackgroundNote?.setBackgroundColor(
+                    Color.parseColor("#120F20")
                 )
             }
             // DEADPOOL
@@ -101,30 +121,11 @@ object ThemesEngine {
                 imageBackground?.let {
                     Glide.with(context)
                         .load(imageResourceId)
-                        .centerCrop()
+                        .fitCenter()
                         .into(it)
                 }
                 rlBackgroundNote?.setBackgroundColor(
                     ContextCompat.getColor(context, android.R.color.black)
-                )
-            }
-            // NEON BATMAN
-            context.getString(R.string.neonBlue) -> {
-                toolBarColor = R.color.NeonBlueToolBar
-                statusBarColor = R.color.NeonBlueStatusBar
-                accentColor = R.color.NeonBlueAccent
-                fab2Color = R.color.NeonBlueFab2
-                fab3Color = R.color.NeonBlueFab3
-                fab4Color = R.color.NeonBlueFab4
-                imageResourceId = R.drawable.xa_c
-                imageBackground?.let {
-                    Glide.with(context)
-                        .load(imageResourceId)
-                        .centerCrop()
-                        .into(it)
-                }
-                rlBackgroundNote?.setBackgroundColor(
-                    Color.parseColor("#120F20")
                 )
             }
             // HULK
@@ -245,7 +246,7 @@ object ThemesEngine {
             imageBackground?.let {
                 Glide.with(context)
                     .load(imageResourceId)
-                    .centerCrop()
+                    .fitCenter()
                     .into(it)
             }
             rlBackgroundNote?.background = backgroundNote

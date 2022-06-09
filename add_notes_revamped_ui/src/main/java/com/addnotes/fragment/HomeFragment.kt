@@ -1,18 +1,13 @@
 package com.addnotes.fragment
 
-import android.app.Dialog
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.text.TextUtils
-import android.transition.AutoTransition
 import android.util.Log
 import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -22,6 +17,8 @@ import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.addnotes.adapter.ViewPagerAdapter
 import com.addnotes.add_notes_revamped_ui.R
 import com.addnotes.add_notes_revamped_ui.databinding.RefactorHomeFragmentBinding
+import com.addnotes.dialogs.DialogSelectionListener
+import com.addnotes.dialogs.NotesTypeDialog
 import com.addnotes.dialogs.ShowThemeDialog
 import com.addnotes.fragment.welcome.WelcomeScreenOne
 import com.addnotes.fragment.welcome.WelcomeScreenThree
@@ -35,13 +32,14 @@ import com.bumptech.glide.Glide
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<RefactorHomeFragmentBinding>(), View.OnClickListener,
-    ShowThemeDialog.ThemeDialogSelectionListener {
+    DialogSelectionListener {
 
     @Inject
     lateinit var customViewModelFactory: CustomViewModelFactory
@@ -56,8 +54,18 @@ class HomeFragment : BaseFragment<RefactorHomeFragmentBinding>(), View.OnClickLi
     private lateinit var rotateForward: Animation
     private lateinit var rotateBackward: Animation
 
-    lateinit var listFragments: MutableList<Class<*>>
-    lateinit var showThemeDialog: ShowThemeDialog
+    private lateinit var fabAction: FloatingActionButton
+    private lateinit var fabAdd: FloatingActionButton
+    private lateinit var fabDelete: FloatingActionButton
+    private lateinit var fabShare: FloatingActionButton
+    private lateinit var imageBackground: ImageView
+    private lateinit var rlBackgroundNote: RelativeLayout
+
+    private lateinit var listFragments: MutableList<Class<*>>
+    private lateinit var showThemeDialog: ShowThemeDialog
+    private lateinit var showNotesTypeDialog: NotesTypeDialog
+
+    private lateinit var viewPagerAdapter: ViewPagerAdapter
 
     override fun onCreateViewBinding(
         inflater: LayoutInflater,
@@ -83,12 +91,17 @@ class HomeFragment : BaseFragment<RefactorHomeFragmentBinding>(), View.OnClickLi
         rotateBackward =
             AnimationUtils.loadAnimation(activity?.applicationContext, R.anim.rotate_backward)
 
-        binding?.apply {
-            floatingActionsButtonsLayout.fabAction.setOnClickListener(this@HomeFragment)
-            floatingActionsButtonsLayout.fabAdd.setOnClickListener(this@HomeFragment)
-            floatingActionsButtonsLayout.fabDelete.setOnClickListener(this@HomeFragment)
-            floatingActionsButtonsLayout.fabShare.setOnClickListener(this@HomeFragment)
-        }
+        fabAction = binding!!.floatingActionsButtonsLayout.fabAction
+        fabAdd = binding!!.floatingActionsButtonsLayout.fabAdd
+        fabDelete = binding!!.floatingActionsButtonsLayout.fabDelete
+        fabShare = binding!!.floatingActionsButtonsLayout.fabShare
+        imageBackground = binding!!.contentMain.imageBackground
+        rlBackgroundNote = binding!!.contentMain.rlBackgroundNote
+
+        fabAction.setOnClickListener(this@HomeFragment)
+        fabAdd.setOnClickListener(this@HomeFragment)
+        fabDelete.setOnClickListener(this@HomeFragment)
+        fabShare.setOnClickListener(this@HomeFragment)
 
         tts = TextToSpeech(
             activity?.applicationContext
@@ -119,7 +132,7 @@ class HomeFragment : BaseFragment<RefactorHomeFragmentBinding>(), View.OnClickLi
     private fun setInitialTheme() {
         val themeColor: String? =
             homeViewModel.getValueFromSharedPreference(
-                MYTHEMECOLOR,
+                HomeViewModel.MYTHEMECOLOR,
                 StringUtilities.EMPTY_STRING
             )
 
@@ -132,20 +145,14 @@ class HomeFragment : BaseFragment<RefactorHomeFragmentBinding>(), View.OnClickLi
                 binding!!.toolbar.toolbar,
                 null,
                 window,
-                true,
-                binding!!.floatingActionsButtonsLayout.fabAction,
-                binding!!.floatingActionsButtonsLayout.fabAdd,
-                binding!!.floatingActionsButtonsLayout.fabDelete,
-                binding!!.floatingActionsButtonsLayout.fabShare,
-                binding!!.contentMain.imageBackground,
-                binding!!.contentMain.rlBackgroundNote
+                true, fabAction, fabAdd, fabDelete, fabShare, imageBackground, rlBackgroundNote
             )
         } else {
             Glide.with(requireContext())
                 .load(R.drawable.super_man_logo)
-                .centerCrop()
-                .into(binding!!.contentMain.imageBackground)
-            binding!!.contentMain.rlBackgroundNote.background =
+                .fitCenter()
+                .into(imageBackground)
+            rlBackgroundNote.background =
                 ContextCompat.getDrawable(requireContext(), R.drawable.app_bg3_c)
         }
     }
@@ -177,8 +184,7 @@ class HomeFragment : BaseFragment<RefactorHomeFragmentBinding>(), View.OnClickLi
         val adView = binding!!.floatingActionsButtonsLayout.adView
         // Request for Ads
         val adRequest = AdRequest.Builder().build()
-        MobileAds.initialize(requireContext(),
-            OnInitializationCompleteListener { })
+        MobileAds.initialize(requireContext(), { })
         adView.loadAd(adRequest)
     }
 
@@ -205,28 +211,29 @@ class HomeFragment : BaseFragment<RefactorHomeFragmentBinding>(), View.OnClickLi
         }
 
     private fun setFirstTimeUserExperience() {
-
         animateFAB()
-        binding?.apply {
-            floatingActionsButtonsLayout.welcomeViewPager.welcomeViewPagerLayout.visibility =
-                View.VISIBLE
-            floatingActionsButtonsLayout.fabAction.isClickable = false
-            floatingActionsButtonsLayout.fabAdd.isClickable = false
-            floatingActionsButtonsLayout.fabDelete.isClickable = false
-            floatingActionsButtonsLayout.fabShare.isClickable = false
-        }
+        binding!!.floatingActionsButtonsLayout.welcomeViewPager.welcomeViewPagerLayout.visibility =
+            View.VISIBLE
+        fabAction.isClickable = false
+        fabAdd.isClickable = false
+        fabDelete.isClickable = false
+        fabShare.isClickable = false
+
         listFragments = mutableListOf<Class<*>>()
 
         listFragments.add(WelcomeScreenOne::class.java)
         listFragments.add(WelcomeScreenTwo::class.java)
         listFragments.add(WelcomeScreenThree::class.java)
 
-        val viewPagerAdapter = ViewPagerAdapter(activity?.supportFragmentManager!!)
+        viewPagerAdapter = ViewPagerAdapter(activity?.supportFragmentManager!!, requireContext())
 
         viewPagerAdapter.setFragments(listFragments)
         binding!!.floatingActionsButtonsLayout.welcomeViewPager.viewpager.adapter = viewPagerAdapter
 
-        drawPageSelectionIndicators(0)
+        viewPagerAdapter.drawPageSelectionIndicators(
+            binding!!.floatingActionsButtonsLayout.welcomeViewPager.viewPagerCountDots,
+            listFragments, 0
+        )
         binding!!.floatingActionsButtonsLayout.welcomeViewPager.viewpager.addOnPageChangeListener(
             object : OnPageChangeListener {
                 override fun onPageScrolled(
@@ -237,72 +244,36 @@ class HomeFragment : BaseFragment<RefactorHomeFragmentBinding>(), View.OnClickLi
                 }
 
                 override fun onPageSelected(position: Int) {
-                    drawPageSelectionIndicators(position)
+                    viewPagerAdapter.drawPageSelectionIndicators(
+                        binding!!.floatingActionsButtonsLayout
+                            .welcomeViewPager.viewPagerCountDots,
+                        listFragments, position
+                    )
                 }
 
                 override fun onPageScrollStateChanged(state: Int) {}
             })
     }
 
-    fun animateFAB() {
+    private fun animateFAB() {
         if (isFabOpen) {
-            binding?.apply {
-                floatingActionsButtonsLayout.fabAction.startAnimation(rotateBackward)
-                floatingActionsButtonsLayout.fabAdd.startAnimation(fabClose)
-                floatingActionsButtonsLayout.fabDelete.startAnimation(fabClose)
-                floatingActionsButtonsLayout.fabShare.startAnimation(fabClose)
-                floatingActionsButtonsLayout.fabAdd.isClickable = false
-                floatingActionsButtonsLayout.fabDelete.isClickable = false
-                floatingActionsButtonsLayout.fabShare.isClickable = false
-            }
+            fabAction.startAnimation(rotateBackward)
+            fabAdd.startAnimation(fabClose)
+            fabDelete.startAnimation(fabClose)
+            fabShare.startAnimation(fabClose)
+            fabAdd.isClickable = false
+            fabDelete.isClickable = false
+            fabShare.isClickable = false
             isFabOpen = false
         } else {
-            binding?.apply {
-                floatingActionsButtonsLayout.fabAction.startAnimation(rotateForward)
-                floatingActionsButtonsLayout.fabAdd.startAnimation(fabOpen)
-                floatingActionsButtonsLayout.fabDelete.startAnimation(fabOpen)
-                floatingActionsButtonsLayout.fabShare.startAnimation(fabOpen)
-                floatingActionsButtonsLayout.fabAdd.isClickable = true
-                floatingActionsButtonsLayout.fabDelete.isClickable = true
-                floatingActionsButtonsLayout.fabShare.isClickable = true
-            }
+            fabAction.startAnimation(rotateForward)
+            fabAdd.startAnimation(fabOpen)
+            fabDelete.startAnimation(fabOpen)
+            fabShare.startAnimation(fabOpen)
+            fabAdd.isClickable = true
+            fabDelete.isClickable = true
+            fabShare.isClickable = true
             isFabOpen = true
-        }
-    }
-
-
-    private fun drawPageSelectionIndicators(mPosition: Int) {
-        if (binding!!.floatingActionsButtonsLayout.welcomeViewPager.viewPagerCountDots != null) {
-            binding!!.floatingActionsButtonsLayout.welcomeViewPager.viewPagerCountDots.removeAllViews()
-        }
-        val dots = arrayOfNulls<ImageView>(listFragments.size)
-        for (i in listFragments.indices) {
-            dots[i] = ImageView(context)
-            if (i == mPosition) {
-                dots[i]?.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.item_selected
-                    )
-                )
-            } else {
-                dots[i]?.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.item_unselected
-                    )
-                )
-            }
-            val params = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
-            params.setMargins(15, 0, 15, 0)
-            binding!!.floatingActionsButtonsLayout.welcomeViewPager.viewPagerCountDots.addView(
-                dots.get(
-                    i
-                ), params
-            )
         }
     }
 
@@ -328,14 +299,14 @@ class HomeFragment : BaseFragment<RefactorHomeFragmentBinding>(), View.OnClickLi
     fun addNotes() {
         makeDeleteOptionVisible(View.GONE)
         makeShareOptionVisible(View.GONE)
-        setType()
+        showNotesTypeDialog()
     }
 
-    fun deleteNotes() {
+    private fun deleteNotes() {
         makeDeleteOptionVisible(View.VISIBLE)
     }
 
-    fun shareNotes() {
+    private fun shareNotes() {
         makeShareOptionVisible(View.VISIBLE)
     }
 
@@ -373,45 +344,12 @@ class HomeFragment : BaseFragment<RefactorHomeFragmentBinding>(), View.OnClickLi
         }
     }
 
-    private fun setType() {
-        val dialog = Dialog(requireContext())
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.window!!.exitTransition = AutoTransition()
-        dialog.window!!.enterTransition = AutoTransition()
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        activity?.setFinishOnTouchOutside(false)
-        dialog.setCanceledOnTouchOutside(true)
-        dialog.setContentView(R.layout.row_type_of_note)
-        val rlShoppingSelected =
-            dialog.findViewById<View>(R.id.rlShoppingSelected) as RelativeLayout
-        val rlNoteSelected = dialog.findViewById<View>(R.id.rlNoteSelected) as RelativeLayout
-        rlShoppingSelected.setOnClickListener {
-//            val type = Bundle()
-//            val intent = Intent(activity?.applicationContext, ShoppingNote::class.java)
-//           intent.putExtra(
-//               NOTESACTIVITY_TYPE_KEY,
-//              NOTESACTIVITY_TYPE_ADD
-//           )
-//            intent.putExtras(type)
-            //startActivity(intent)
-            dialog.dismiss()
-        }
-        rlNoteSelected.setOnClickListener {
-            val type = Bundle()
-//            val intent = Intent(getApplicationContext(), EditNotesView::class.java)
-//            intent.putExtra(
-//                addnote.vnps.addnotes.addnotes.view.AddNotesView.NOTESACTIVITY_TYPE_KEY,
-//                addnote.vnps.addnotes.addnotes.view.AddNotesView.NOTESACTIVITY_TYPE_ADD
-//            )
-//            intent.putExtras(type)
-//            startActivity(intent)
-            dialog.dismiss()
-        }
-        dialog.show()
+    private fun showNotesTypeDialog() {
+        showNotesTypeDialog = NotesTypeDialog(requireContext(), this)
     }
 
     fun onSkipClicked() {
-        binding!!.floatingActionsButtonsLayout.fabAction.isClickable = true
+        fabAction.isClickable = true
         binding!!.floatingActionsButtonsLayout.welcomeViewPager.welcomeViewPagerLayout.visibility =
             View.GONE
         animateFAB()
@@ -459,7 +397,6 @@ class HomeFragment : BaseFragment<RefactorHomeFragmentBinding>(), View.OnClickLi
         const val NOTESACTIVITY_TYPE_ADD = "type_add"
         const val NOTESACTIVITY_TYPE_POSITION = "type_position"
         const val PREF_VERSION_CODE_KEY = "version_code"
-        const val MYTHEMECOLOR = "myThemeColor"
         const val TAG = "Home_Fragment"
 
         fun newInstance(): HomeFragment {
@@ -467,280 +404,91 @@ class HomeFragment : BaseFragment<RefactorHomeFragmentBinding>(), View.OnClickLi
         }
     }
 
-    override fun onThemeSelected(id: Int) {
-        //addNotesPresenter.userSelection(v.getId())
+    override fun onDialogInputSelected(id: Int) {
+//        addNotesPresenter.userSelection(v.getId())
 //        val editor: SharedPreferences.Editor = getSharedPreferences(
 //            addnote.vnps.addnotes.addnotes.view.AddNotesView.MyPREFERENCES,
 //            Context.MODE_PRIVATE
 //        ).edit()
-//        var themeColor = ""
-//        val window: Window = this.getWindow()
-//        when (v.getId()) {
-//            R.id.rlRedYellow -> {
-//                editor.putString(
-//                    addnote.vnps.addnotes.addnotes.view.AddNotesView.MYTHEMECOLOR,
-//                    getString(R.string.redYellow)
-//                )
-//                editor.commit()
-//                themeColor = getString(R.string.redYellow)
-//                CommonUtilities.changeThemeColors(
-//                    themeColor,
-//                    binding!!.toolbar.toolbar,
-//                    null,
-//                    window,
-//                    true,
-//                    binding!!.floatingActionsButtonsLayout.fabAction,
-//                    binding!!.floatingActionsButtonsLayout.fabAdd,
-//                    binding!!.floatingActionsButtonsLayout.fabDelete,
-//                    binding!!.floatingActionsButtonsLayout.fabShare,
-//                    binding!!.contentMain.imageBackground,
-//                    binding!!.contentMain.rlBackgroundNote
-//                )
-//                dialogTheme.dismiss()
-//            }
-//            R.id.rlPurpleGreen -> {
-//                editor.putString(
-//                    addnote.vnps.addnotes.addnotes.view.AddNotesView.MYTHEMECOLOR,
-//                    getString(R.string.purpleGreen)
-//                )
-//                editor.commit()
-//                themeColor = getString(R.string.purpleGreen)
-//                CommonUtilities.changeThemeColors(
-//                    themeColor,
-//                    binding!!.toolbar.toolbar,
-//                    null,
-//                    window,
-//                    true,
-//                    binding!!.floatingActionsButtonsLayout.fabAction,
-//                    binding!!.floatingActionsButtonsLayout.fabAdd,
-//                    binding!!.floatingActionsButtonsLayout.fabDelete,
-//                    binding!!.floatingActionsButtonsLayout.fabShare,
-//                    binding!!.contentMain.imageBackground,
-//                    binding!!.contentMain.rlBackgroundNote
-//                )
-//                dialogTheme.dismiss()
-//            }
-//            R.id.rlOrangRed -> {
-//                editor.putString(
-//                    addnote.vnps.addnotes.addnotes.view.AddNotesView.MYTHEMECOLOR,
-//                    getString(R.string.orangeRed)
-//                )
-//                editor.commit()
-//                themeColor = getString(R.string.orangeRed)
-//                CommonUtilities.changeThemeColors(
-//                    themeColor,
-//                    binding!!.toolbar.toolbar,
-//                    null,
-//                    window,
-//                    true,
-//                    binding!!.floatingActionsButtonsLayout.fabAction,
-//                    binding!!.floatingActionsButtonsLayout.fabAdd,
-//                    binding!!.floatingActionsButtonsLayout.fabDelete,
-//                    binding!!.floatingActionsButtonsLayout.fabShare,
-//                    binding!!.contentMain.imageBackground,
-//                    binding!!.contentMain.rlBackgroundNote
-//                )
-//                dialogTheme.dismiss()
-//            }
-//            R.id.rlPinkYellow -> {
-//                editor.putString(
-//                    addnote.vnps.addnotes.addnotes.view.AddNotesView.MYTHEMECOLOR,
-//                    getString(R.string.pinkYellow)
-//                )
-//                editor.commit()
-//                themeColor = getString(R.string.pinkYellow)
-//                CommonUtilities.changeThemeColors(
-//                    themeColor,
-//                    binding!!.toolbar.toolbar,
-//                    null,
-//                    window,
-//                    true,
-//                    binding!!.floatingActionsButtonsLayout.fabAction,
-//                    binding!!.floatingActionsButtonsLayout.fabAdd,
-//                    binding!!.floatingActionsButtonsLayout.fabDelete,
-//                    binding!!.floatingActionsButtonsLayout.fabShare,
-//                    binding!!.contentMain.imageBackground,
-//                    binding!!.contentMain.rlBackgroundNote
-//                )
-//                dialogTheme.dismiss()
-//            }
-//            R.id.rlGreenBrown -> {
-//                editor.putString(
-//                    addnote.vnps.addnotes.addnotes.view.AddNotesView.MYTHEMECOLOR,
-//                    getString(R.string.greenBrown)
-//                )
-//                editor.commit()
-//                themeColor = getString(R.string.greenBrown)
-//                CommonUtilities.changeThemeColors(
-//                    themeColor,
-//                    binding!!.toolbar.toolbar,
-//                    null,
-//                    window,
-//                    true,
-//                    binding!!.floatingActionsButtonsLayout.fabAction,
-//                    binding!!.floatingActionsButtonsLayout.fabAdd,
-//                    binding!!.floatingActionsButtonsLayout.fabDelete,
-//                    binding!!.floatingActionsButtonsLayout.fabShare,
-//                    binding!!.contentMain.imageBackground,
-//                    binding!!.contentMain.rlBackgroundNote
-//                )
-//                dialogTheme.dismiss()
-//            }
-//            R.id.rlblue -> {
-//                editor.putString(
-//                    addnote.vnps.addnotes.addnotes.view.AddNotesView.MYTHEMECOLOR,
-//                    getString(R.string.blue)
-//                )
-//                editor.commit()
-//                themeColor = getString(R.string.blue)
-//                CommonUtilities.changeThemeColors(
-//                    themeColor,
-//                    binding!!.toolbar.toolbar,
-//                    null,
-//                    window,
-//                    true,
-//                    binding!!.floatingActionsButtonsLayout.fabAction,
-//                    binding!!.floatingActionsButtonsLayout.fabAdd,
-//                    binding!!.floatingActionsButtonsLayout.fabDelete,
-//                    binding!!.floatingActionsButtonsLayout.fabShare,
-//                    binding!!.contentMain.imageBackground,
-//                    binding!!.contentMain.rlBackgroundNote
-//                )
-//                dialogTheme.dismiss()
-//            }
-//            R.id.rlPink_helloKitty -> {
-//                editor.putString(
-//                    addnote.vnps.addnotes.addnotes.view.AddNotesView.MYTHEMECOLOR,
-//                    getString(R.string.pink_hello_kitty)
-//                )
-//                editor.commit()
-//                themeColor = getString(R.string.pink_hello_kitty)
-//                CommonUtilities.changeThemeColors(
-//                    themeColor,
-//                    binding!!.toolbar.toolbar,
-//                    null,
-//                    window,
-//                    true,
-//                    binding!!.floatingActionsButtonsLayout.fabAction,
-//                    binding!!.floatingActionsButtonsLayout.fabAdd,
-//                    binding!!.floatingActionsButtonsLayout.fabDelete,
-//                    binding!!.floatingActionsButtonsLayout.fabShare,
-//                    binding!!.contentMain.imageBackground,
-//                    binding!!.contentMain.rlBackgroundNote
-//                )
-//                dialogTheme.dismiss()
-//            }
-//            R.id.rlOrange -> {
-//                editor.putString(
-//                    addnote.vnps.addnotes.addnotes.view.AddNotesView.MYTHEMECOLOR,
-//                    getString(R.string.orange)
-//                )
-//                editor.commit()
-//                themeColor = getString(R.string.orange)
-//                CommonUtilities.changeThemeColors(
-//                    themeColor,
-//                    binding!!.toolbar.toolbar,
-//                    null,
-//                    window,
-//                    true,
-//                    binding!!.floatingActionsButtonsLayout.fabAction,
-//                    binding!!.floatingActionsButtonsLayout.fabAdd,
-//                    binding!!.floatingActionsButtonsLayout.fabDelete,
-//                    binding!!.floatingActionsButtonsLayout.fabShare,
-//                    binding!!.contentMain.imageBackground,
-//                    binding!!.contentMain.rlBackgroundNote
-//                )
-//                dialogTheme.dismiss()
-//            }
-//            R.id.rlDeepPurple -> {
-//                editor.putString(
-//                    addnote.vnps.addnotes.addnotes.view.AddNotesView.MYTHEMECOLOR,
-//                    getString(R.string.deepPurple)
-//                )
-//                editor.commit()
-//                themeColor = getString(R.string.deepPurple)
-//                CommonUtilities.changeThemeColors(
-//                    themeColor,
-//                    binding!!.toolbar.toolbar,
-//                    null,
-//                    window,
-//                    true,
-//                    binding!!.floatingActionsButtonsLayout.fabAction,
-//                    binding!!.floatingActionsButtonsLayout.fabAdd,
-//                    binding!!.floatingActionsButtonsLayout.fabDelete,
-//                    binding!!.floatingActionsButtonsLayout.fabShare,
-//                    binding!!.contentMain.imageBackground,
-//                    binding!!.contentMain.rlBackgroundNote
-//                )
-//                dialogTheme.dismiss()
-//            }
-//            R.id.rlBlackRed -> {
-//                editor.putString(
-//                    addnote.vnps.addnotes.addnotes.view.AddNotesView.MYTHEMECOLOR,
-//                    getString(R.string.blackRed)
-//                )
-//                editor.commit()
-//                themeColor = getString(R.string.blackRed)
-//                CommonUtilities.changeThemeColors(
-//                    themeColor,
-//                    binding!!.toolbar.toolbar,
-//                    null,
-//                    window,
-//                    true,
-//                    binding!!.floatingActionsButtonsLayout.fabAction,
-//                    binding!!.floatingActionsButtonsLayout.fabAdd,
-//                    binding!!.floatingActionsButtonsLayout.fabDelete,
-//                    binding!!.floatingActionsButtonsLayout.fabShare,
-//                    binding!!.contentMain.imageBackground,
-//                    binding!!.contentMain.rlBackgroundNote
-//                )
-//                dialogTheme.dismiss()
-//            }
-//            R.id.rlNeonBlue -> {
-//                editor.putString(
-//                    addnote.vnps.addnotes.addnotes.view.AddNotesView.MYTHEMECOLOR,
-//                    getString(R.string.neonBlue)
-//                )
-//                editor.commit()
-//                themeColor = getString(R.string.neonBlue)
-//                CommonUtilities.changeThemeColors(
-//                    themeColor,
-//                    binding!!.toolbar.toolbar,
-//                    null,
-//                    window,
-//                    true,
-//                    binding!!.floatingActionsButtonsLayout.fabAction,
-//                    binding!!.floatingActionsButtonsLayout.fabAdd,
-//                    binding!!.floatingActionsButtonsLayout.fabDelete,
-//                    binding!!.floatingActionsButtonsLayout.fabShare,
-//                    binding!!.contentMain.imageBackground,
-//                    binding!!.contentMain.rlBackgroundNote
-//                )
-//                dialogTheme.dismiss()
-//            }
-//            R.id.rlWhiteJoker -> {
-//                editor.putString(
-//                    addnote.vnps.addnotes.addnotes.view.AddNotesView.MYTHEMECOLOR,
-//                    getString(R.string.whiteJoker)
-//                )
-//                editor.commit()
-//                themeColor = getString(R.string.whiteJoker)
-//                CommonUtilities.changeThemeColors(
-//                    themeColor,
-//                    binding!!.toolbar.toolbar,
-//                    null,
-//                    window,
-//                    true,
-//                    binding!!.floatingActionsButtonsLayout.fabAction,
-//                    binding!!.floatingActionsButtonsLayout.fabAdd,
-//                    binding!!.floatingActionsButtonsLayout.fabDelete,
-//                    binding!!.floatingActionsButtonsLayout.fabShare,
-//                    binding!!.contentMain.imageBackground,
-//                    binding!!.contentMain.rlBackgroundNote
-//                )
-//                dialogTheme.dismiss()
-//            }
-//            else -> {}
-//        }
+        var themeColor: String = StringUtilities.EMPTY_STRING
+        var isThemeSelected = true
+
+        val window: Window? = activity?.window
+
+        when (id) {
+            R.id.rlRedYellow -> {
+                themeColor = getString(R.string.redYellow)
+            }
+            R.id.rlPurpleGreen -> {
+                themeColor = getString(R.string.purpleGreen)
+            }
+            R.id.rlOrangRed -> {
+                themeColor = getString(R.string.orangeRed)
+            }
+            R.id.rlPinkYellow -> {
+                themeColor = getString(R.string.pinkYellow)
+            }
+            R.id.rlGreenBrown -> {
+                themeColor = getString(R.string.greenBrown)
+            }
+            R.id.rlblue -> {
+                themeColor = getString(R.string.blue)
+            }
+            R.id.rlPink_helloKitty -> {
+                themeColor = getString(R.string.pink_hello_kitty)
+            }
+            R.id.rlOrange -> {
+                themeColor = getString(R.string.orange)
+            }
+            R.id.rlDeepPurple -> {
+                themeColor = getString(R.string.deepPurple)
+            }
+            R.id.rlBlackRed -> {
+                themeColor = getString(R.string.blackRed)
+            }
+            R.id.rlNeonBlue -> {
+                themeColor = getString(R.string.neonBlue)
+            }
+            R.id.rlWhiteJoker -> {
+                themeColor = getString(R.string.whiteJoker)
+
+            }
+            R.id.rlShoppingSelected -> {
+//            val type = Bundle()
+//            val intent = Intent(activity?.applicationContext, ShoppingNote::class.java)
+//           intent.putExtra(
+//               NOTESACTIVITY_TYPE_KEY,
+//              NOTESACTIVITY_TYPE_ADD
+//           )
+//            intent.putExtras(type)
+                //startActivity(intent)
+                //  dismiss()
+            }
+            R.id.rlNoteSelected -> {
+                val type = Bundle()
+//            val intent = Intent(getApplicationContext(), EditNotesView::class.java)
+//            intent.putExtra(
+//                addnote.vnps.addnotes.addnotes.view.AddNotesView.NOTESACTIVITY_TYPE_KEY,
+//                addnote.vnps.addnotes.addnotes.view.AddNotesView.NOTESACTIVITY_TYPE_ADD
+//            )
+//            intent.putExtras(type)
+//            startActivity(intent)
+                //     dismiss()
+            }
+            else -> {}
+        }
+        if (isThemeSelected) {
+            homeViewModel.updateThemeInPreferences(themeColor)
+            ThemesEngine.updateThemeColors(
+                requireContext(),
+                themeColor,
+                binding!!.toolbar.toolbar,
+                null,
+                window,
+                true,
+                fabAction, fabAdd, fabDelete, fabShare, imageBackground, rlBackgroundNote
+            )
+            showThemeDialog.dismiss()
+        }
     }
 }
