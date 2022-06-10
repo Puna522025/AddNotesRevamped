@@ -11,10 +11,14 @@ android {
     buildToolsVersion androidBuildToolsVersion
 
     defaultConfig {
+        versionCode 1
+
         multiDexEnabled true
         minSdkVersion androidMinSdkVersion
         targetSdkVersion androidTargetSdkVersion
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "double", "VERSION_NAME", "1.0"
     }
     testOptions {
         unitTests.returnDefaultValues = true
