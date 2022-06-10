@@ -1,6 +1,8 @@
 package com.addnotes.activity
 
-import com.addnotes.handlers.NavigationHandler
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.transition.AutoTransition
@@ -10,8 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.addnotes.add_notes_revamped_ui.R
-import com.addnotes.fragment.HomeFragment
-import dagger.hilt.android.AndroidEntryPoint
+import com.addnotes.handlers.NavigationHandler
 
 open class BaseActivity : AppCompatActivity(), NavigationHandler {
 
@@ -44,5 +45,33 @@ open class BaseActivity : AppCompatActivity(), NavigationHandler {
     override fun getFragment(fragmentTag: String): Fragment? {
         val fm: FragmentManager = supportFragmentManager
         return fm.findFragmentByTag(fragmentTag)
+    }
+
+    // TODO: TO UPDATE THE LINK
+    public fun rateApp() {
+        try {
+            val rateIntent = rateIntentForUrl("market://details")
+            if (rateIntent.resolveActivity(packageManager) != null) {
+                startActivity(rateIntent)
+            }
+        } catch (e: ActivityNotFoundException) {
+            val rateIntent = rateIntentForUrl("http://play.google.com/store/apps/details")
+            startActivity(rateIntent)
+        }
+    }
+
+    fun rateIntentForUrl(url: String): Intent {
+        val intent = Intent(
+            Intent.ACTION_VIEW, Uri.parse(
+                String.format(
+                    "%s?id=%s", url,
+                    packageName
+                )
+            )
+        )
+        var flags = Intent.FLAG_ACTIVITY_NO_HISTORY or Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+        flags = flags or Intent.FLAG_ACTIVITY_NEW_DOCUMENT
+        intent.addFlags(flags)
+        return intent
     }
 }

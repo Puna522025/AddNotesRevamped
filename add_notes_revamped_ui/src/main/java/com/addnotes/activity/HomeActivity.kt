@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.transition.AutoTransition
 import android.view.Window
 import com.addnotes.add_notes_revamped_ui.R
-import com.addnotes.fragment.HomeFragment
+import com.addnotes.fragment.home.HomeFragment
 import com.addnotes.interfaces.WelcomeSkipClicked
 import dagger.hilt.android.AndroidEntryPoint
 

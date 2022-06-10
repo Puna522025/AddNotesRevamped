@@ -1,25 +1,27 @@
-package com.addnotes.fragment
+package com.addnotes.fragment.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.text.TextUtils
-import android.util.Log
 import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.RelativeLayout
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
+import com.addnotes.activity.HomeActivity
+import com.addnotes.activity.ViewNotesActivity
 import com.addnotes.adapter.ViewPagerAdapter
 import com.addnotes.add_notes_revamped_ui.R
 import com.addnotes.add_notes_revamped_ui.databinding.RefactorHomeFragmentBinding
 import com.addnotes.dialogs.DialogSelectionListener
 import com.addnotes.dialogs.NotesTypeDialog
 import com.addnotes.dialogs.ShowThemeDialog
+import com.addnotes.fragment.BaseFragment
 import com.addnotes.fragment.welcome.WelcomeScreenOne
 import com.addnotes.fragment.welcome.WelcomeScreenThree
 import com.addnotes.fragment.welcome.WelcomeScreenTwo
@@ -31,7 +33,6 @@ import com.addnotes.viewModel.StateData
 import com.bumptech.glide.Glide
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -82,7 +83,7 @@ class HomeFragment : BaseFragment<RefactorHomeFragmentBinding>(), View.OnClickLi
         homeViewModel = ViewModelProviders
             .of(this, customViewModelFactory).get(HomeViewModel::class.java)
 
-        setToolBar()
+        setToolBar(binding!!.toolbar.toolbar)
         //Animations
         fabOpen = AnimationUtils.loadAnimation(activity?.applicationContext, R.anim.fab_open)
         fabClose = AnimationUtils.loadAnimation(activity?.applicationContext, R.anim.fab_close)
@@ -119,14 +120,6 @@ class HomeFragment : BaseFragment<RefactorHomeFragmentBinding>(), View.OnClickLi
         homeViewModel.getFirstLaunchDetails()
             .observe(viewLifecycleOwner, processFirstLaunchDetails())
         homeViewModel.checkFirstLaunch()
-    }
-
-    private fun setToolBar() {
-        try {
-            (activity as AppCompatActivity).setSupportActionBar(binding!!.toolbar.toolbar)
-        } catch (e: Exception) {
-            Log.d("ToolBar Error", "ClassCastException")
-        }
     }
 
     private fun setInitialTheme() {
@@ -372,11 +365,14 @@ class HomeFragment : BaseFragment<RefactorHomeFragmentBinding>(), View.OnClickLi
                 return true
             }
             R.id.action_rate_us -> {
-                //rateApp()
+                (activity as HomeActivity).rateApp()
                 return true
             }
             R.id.action_about_us -> {
-                /// aboutUs()
+                navigationHandler?.loadFragment(
+                    AboutUsFragment.newInstance(),
+                    true, AboutUsFragment.TAG
+                )
                 return true
             }
             else -> {
@@ -397,7 +393,7 @@ class HomeFragment : BaseFragment<RefactorHomeFragmentBinding>(), View.OnClickLi
         const val NOTESACTIVITY_TYPE_ADD = "type_add"
         const val NOTESACTIVITY_TYPE_POSITION = "type_position"
         const val PREF_VERSION_CODE_KEY = "version_code"
-        const val TAG = "Home_Fragment"
+        const val TAG = "HomeFragment"
 
         fun newInstance(): HomeFragment {
             return HomeFragment()
@@ -454,17 +450,19 @@ class HomeFragment : BaseFragment<RefactorHomeFragmentBinding>(), View.OnClickLi
 
             }
             R.id.rlShoppingSelected -> {
-//            val type = Bundle()
-//            val intent = Intent(activity?.applicationContext, ShoppingNote::class.java)
-//           intent.putExtra(
-//               NOTESACTIVITY_TYPE_KEY,
-//              NOTESACTIVITY_TYPE_ADD
-//           )
-//            intent.putExtras(type)
-                //startActivity(intent)
-                //  dismiss()
+                isThemeSelected = false
+                val type = Bundle()
+                val intent = Intent(activity?.applicationContext, ViewNotesActivity::class.java)
+                intent.putExtra(
+                    NOTESACTIVITY_TYPE_KEY,
+                    NOTESACTIVITY_TYPE_ADD
+                )
+                intent.putExtras(type)
+                showNotesTypeDialog.dismiss()
+                startActivity(intent)
             }
             R.id.rlNoteSelected -> {
+                isThemeSelected = false
                 val type = Bundle()
 //            val intent = Intent(getApplicationContext(), EditNotesView::class.java)
 //            intent.putExtra(
