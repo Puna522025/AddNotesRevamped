@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".editnotes.view.EditNotesView"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:id="@+id/add_note_coordinator_layout">
 
@@ -27,7 +26,8 @@
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/save_white" />
 
-    <include layout="@layout/content_addnote" />
+    <include layout="@layout/content_addnote"
+        android:id="@+id/createNotesContent"/>
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card1"
         style="@style/CardViewStyleMain"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:foreground="?android:attr/selectableItemBackground"
         android:stateListAnimator="@anim/raise"
-        android:layout_height="wrap_content"
         app:elevation="15dp">
 
         <RelativeLayout
@@ -20,37 +20,37 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardAddNote"
-               style="@style/CardViewStyleMain"
+                style="@style/CardViewStyleMain"
                 android:layout_width="wrap_content"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:stateListAnimator="@anim/raise"
                 android:layout_height="wrap_content"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:padding="10dp"
+                android:stateListAnimator="@anim/raise"
                 app:elevation="15dp">
 
                 <RelativeLayout
+                    android:id="@+id/imageOneLayout"
                     android:layout_width="150dp"
-                    android:id="@+id/rlNoteSelected"
                     android:layout_height="wrap_content">
 
                     <ImageView
-                        android:id="@+id/imgNote"
+                        android:id="@+id/imageOne"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
-                        android:layout_marginTop="5dp"
                         android:layout_centerHorizontal="true"
+                        android:layout_marginTop="5dp"
                         android:src="@drawable/addornot" />
 
                     <TextView
-                        android:id="@+id/note"
+                        android:id="@+id/imageOneText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/imgNote"
-                        android:textSize="18sp"
-                        android:textColor="@color/brightBlueDialog"
+                        android:layout_below="@+id/imageOne"
                         android:layout_centerHorizontal="true"
                         android:layout_margin="2dp"
-                        android:text="Note" />
+                        android:text="Note"
+                        android:textColor="@color/brightBlueDialog"
+                        android:textSize="18sp" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
@@ -58,39 +58,38 @@
                 android:id="@+id/cardSopping"
                 style="@style/CardViewStyleMain"
                 android:layout_width="wrap_content"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:stateListAnimator="@anim/raise"
                 android:layout_height="wrap_content"
-                app:elevation="15dp"
+                android:layout_alignParentRight="true"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:padding="10dp"
-                android:layout_alignParentRight="true">
+                android:stateListAnimator="@anim/raise"
+                app:elevation="15dp">
 
                 <RelativeLayout
+                    android:id="@+id/imageTwoLayout"
                     android:layout_width="150dp"
-                    android:id="@+id/rlShoppingSelected"
-                    android:layout_height="wrap_content"
-                    >
+                    android:layout_height="wrap_content">
 
                     <ImageView
-                        android:id="@+id/imgShopping"
+                        android:id="@+id/imageTwo"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
-                        android:layout_marginTop="5dp"
                         android:layout_centerHorizontal="true"
+                        android:layout_marginTop="5dp"
                         android:src="@drawable/cart" />
 
                     <TextView
-                        android:id="@+id/shopping"
+                        android:id="@+id/imageTwoText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/imgShopping"
-                        android:textSize="18sp"
-                        android:layout_margin="2dp"
+                        android:layout_below="@+id/imageTwo"
                         android:layout_centerHorizontal="true"
+                        android:layout_margin="2dp"
+                        android:text="Shopping List"
                         android:textColor="@color/brightBlueDialog"
-                        android:text="Shopping List" />
+                        android:textSize="18sp" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
         </RelativeLayout>
-        </androidx.cardview.widget.CardView>
-    </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

@@ -3,32 +3,29 @@ package com.addnotes.fragment.viewnotes
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.*
 import android.widget.CompoundButton
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.addnotes.adapter.AdapterClickListener
 import com.addnotes.adapter.ShoppingListAdapter
 import com.addnotes.adapter.ShoppingListData
 import com.addnotes.add_notes_revamped_ui.R
 import com.addnotes.add_notes_revamped_ui.databinding.ActivityShoppingBinding
 import com.addnotes.dialogs.DialogSelectionListener
 import com.addnotes.dialogs.ShoppingListItemDetailsDialog
-import com.addnotes.fragment.BaseFragment
+import com.addnotes.fragment.home.HomeFragment
 import com.addnotes.interfaces.FragmentBackPressed
 import com.addnotes.utils.ShoppingCalculator
 import com.addnotes.utils.StringUtilities
-import com.addnotes.utils.ThemesEngine
-import com.addnotes.viewModel.HomeViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ViewShoppingNotesFragment : BaseNotesFragment<ActivityShoppingBinding>(),
+class CreateShoppingNotesFragment : BaseNotesFragment<ActivityShoppingBinding>(),
     FragmentBackPressed {
 
     @Inject
@@ -38,6 +35,9 @@ class ViewShoppingNotesFragment : BaseNotesFragment<ActivityShoppingBinding>(),
     lateinit var shoppingListArray: ArrayList<ShoppingListData>
     lateinit var listView: RecyclerView
     lateinit var shoppingListItemDetailsDialog: ShoppingListItemDetailsDialog
+
+    private var notesType = StringUtilities.EMPTY_STRING
+    private var position: Int = 0
 
     override fun onCreateViewBinding(
         inflater: LayoutInflater,
@@ -51,12 +51,13 @@ class ViewShoppingNotesFragment : BaseNotesFragment<ActivityShoppingBinding>(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setToolBar(binding!!.toolbar.toolbar)
+        setTheme(sharedPreferences, binding!!.toolbar.toolbar)
+
         shoppingListArray = arrayListOf<ShoppingListData>()
 
-        setTheme()
         listView = binding!!.shoppingListView.listView
         shoppingListAdapter = ShoppingListAdapter(requireContext(), shoppingListArray,
-            object : ShoppingListAdapter.MyClickListener {
+            object : AdapterClickListener {
                 override fun onItemClick(position: Int, v: View?) {
                     if (v?.id == R.id.imgDeleteNote) {
                         shoppingListArray.removeAt(position)
@@ -107,6 +108,7 @@ class ViewShoppingNotesFragment : BaseNotesFragment<ActivityShoppingBinding>(),
         listView.itemAnimator = DefaultItemAnimator()
         listView.adapter = shoppingListAdapter
 
+        checkIfUpdateShoppingNote()
         binding!!.fabSave.setOnClickListener(View.OnClickListener {
             if (!binding!!.shoppingListView.etNoteText.text.toString()
                     .equals(StringUtilities.EMPTY_STRING, ignoreCase = true)
@@ -136,6 +138,50 @@ class ViewShoppingNotesFragment : BaseNotesFragment<ActivityShoppingBinding>(),
         })
     }
 
+    private fun checkIfUpdateShoppingNote() {
+
+        val bundle: Bundle? = activity?.intent?.extras
+
+        (bundle?.get(HomeFragment.NOTES_TYPE_KEY)?.let {
+            notesType = it.toString()
+            // TODO: Complete DB and return.
+//            if (notesType.equals(HomeFragment.NOTES_TYPE_UPDATE, ignoreCase = true)) {
+//
+//                position = bundle.get(HomeFragment.NOTES_TYPE_POSITION).toString().toInt()
+//                //val noteDetails: NoteDetails = database.getNote(position)
+//                //binding?.shoppingListView?.titleShopping?.text = noteDetails.getShoppingTitle()
+//
+//                val json: JSONObject
+//                try {
+//                    json = JSONObject(noteDetails.getShoppingString())
+//                    if (json.optJSONArray(getString(R.string.json_Shopping_Array)) != null) {
+//                        val jArray = json.optJSONArray(getString(R.string.json_Shopping_Array))
+//                        for (i in 0 until jArray.length()) {
+//                            val json_obj = jArray.getJSONObject(i) //get the 3rd item
+//                            val shoppingPojo = ShoppingListData(
+//                                json_obj.getString("itemToBuy"),
+//                                json_obj.getString("value"),
+//                                json_obj.getString("count"),
+//                                json_obj.getString("doneOrNot")
+//                            )
+//                            shoppingListArray.add(shoppingPojo)
+//                        }
+//                    }
+//                    shoppingListAdapter.notifyDataSetChanged()
+//                    setTotalItemSum()
+//                } catch (e: JSONException) {
+//                    e.printStackTrace()
+//                }
+//                if (!noteDetails.getAlertTime()
+//                        .equalsIgnoreCase(getString(R.string.alertDefaultValue))
+//                ) {
+//                    binding?.shoppingListView?.alertText?.visibility = View.VISIBLE
+//                    //binding?.shoppingListView?.alertText?.text = noteDetails.getAlertTime()
+//                }
+//            }
+        })
+    }
+
     private fun setTotalItemSum() {
         val sum = ShoppingCalculator.doSumOfShoppingItems(shoppingListArray)
         if (sum != 0) {
@@ -145,34 +191,9 @@ class ViewShoppingNotesFragment : BaseNotesFragment<ActivityShoppingBinding>(),
                     sum
                 )
             )
-            binding!!.shoppingListView.totalSumItem.setVisibility(View.VISIBLE)
+            binding!!.shoppingListView.totalSumItem.visibility = View.VISIBLE
         } else {
-            binding!!.shoppingListView.totalSumItem.setVisibility(View.GONE)
-        }
-    }
-
-    private fun setTheme() {
-        val themeColor =
-            sharedPreferences.getString(HomeViewModel.MYTHEMECOLOR, StringUtilities.EMPTY_STRING)
-        val window: Window? = activity?.getWindow()
-        if (!TextUtils.isEmpty(themeColor)) {
-            ThemesEngine.updateThemeColors(
-                requireContext(),
-                themeColor,
-                binding!!.toolbar.toolbar,
-                null,
-                window,
-                false,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-            )
-        } else {
-            window?.statusBarColor =
-                ContextCompat.getColor(requireContext(), R.color.primary_dark)
+            binding!!.shoppingListView.totalSumItem.visibility = View.GONE
         }
     }
 
@@ -183,7 +204,7 @@ class ViewShoppingNotesFragment : BaseNotesFragment<ActivityShoppingBinding>(),
 
     override fun onBackPressed(): Boolean {
         return if (shoppingListArray.size > 0) {
-            // saveShoppingDetails()
+            // TODO: saveShoppingDetails()
             Toast.makeText(requireContext(), "Please Save", Toast.LENGTH_LONG).show()
             true
         } else {
@@ -194,8 +215,8 @@ class ViewShoppingNotesFragment : BaseNotesFragment<ActivityShoppingBinding>(),
     companion object {
         const val TAG: String = "ViewShoppingNotesFragment"
 
-        fun newInstance(): ViewShoppingNotesFragment {
-            return ViewShoppingNotesFragment()
+        fun newInstance(): CreateShoppingNotesFragment {
+            return CreateShoppingNotesFragment()
         }
     }
 }
