@@ -16,7 +16,7 @@ import com.addnotes.utils.StringUtilities
 
 class ShoppingListAdapter(
     val context: Context, val shoppingList: ArrayList<ShoppingListData>,
-    private val myClickListener: MyClickListener,
+    private val myClickListener: AdapterClickListener,
     private val myCheckedChangeListener: MyCheckedChangeListener
 ) :
     RecyclerView.Adapter<ShoppingListAdapter.CustomViewHolder>() {
@@ -35,7 +35,7 @@ class ShoppingListAdapter(
     }
 
     class CustomViewHolder(
-        view: View, private val myClickListener: MyClickListener,
+        view: View, private val myClickListener: AdapterClickListener,
         private val myCheckedChangeListener: MyCheckedChangeListener
     ) : RecyclerView.ViewHolder(view),
         View.OnClickListener, CompoundButton.OnCheckedChangeListener {
@@ -117,10 +117,6 @@ class ShoppingListAdapter(
 
     override fun getItemCount(): Int {
         return shoppingList.size
-    }
-
-    interface MyClickListener {
-        fun onItemClick(position: Int, v: View?)
     }
 
     interface MyCheckedChangeListener {

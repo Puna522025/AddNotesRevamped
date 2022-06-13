@@ -1,8 +1,9 @@
 package com.addnotes.injection
 
 import android.content.SharedPreferences
-import com.addnotes.viewModel.HomeViewModel
 import androidx.lifecycle.ViewModel
+import com.addnotes.viewModel.CreateNotesViewModel
+import com.addnotes.viewModel.HomeViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,5 +19,12 @@ object ViewModelModule {
     @ViewModelKey(HomeViewModel::class)
     fun homeViewModel(sharedPreferences: SharedPreferences): ViewModel {
         return HomeViewModel(sharedPreferences)
+    }
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(CreateNotesViewModel::class)
+    fun createNotesViewModel(sharedPreferences: SharedPreferences): ViewModel {
+        return CreateNotesViewModel(sharedPreferences)
     }
 }

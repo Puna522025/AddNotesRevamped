@@ -13,8 +13,9 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
+import com.addnotes.activity.CreateNotesActivity
+import com.addnotes.activity.CreateShoppingNotesActivity
 import com.addnotes.activity.HomeActivity
-import com.addnotes.activity.ViewNotesActivity
 import com.addnotes.adapter.ViewPagerAdapter
 import com.addnotes.add_notes_revamped_ui.R
 import com.addnotes.add_notes_revamped_ui.databinding.RefactorHomeFragmentBinding
@@ -388,10 +389,10 @@ class HomeFragment : BaseFragment<RefactorHomeFragmentBinding>(), View.OnClickLi
 
     companion object {
 
-        const val NOTESACTIVITY_TYPE_KEY = "type_key"
-        const val NOTESACTIVITY_TYPE_UPDATE = "type_update"
-        const val NOTESACTIVITY_TYPE_ADD = "type_add"
-        const val NOTESACTIVITY_TYPE_POSITION = "type_position"
+        const val NOTES_TYPE_KEY = "type_key"
+        const val NOTES_TYPE_UPDATE = "type_update"
+        const val NOTES_TYPE_ADD = "type_add"
+        const val NOTES_TYPE_POSITION = "type_position"
         const val PREF_VERSION_CODE_KEY = "version_code"
         const val TAG = "HomeFragment"
 
@@ -449,29 +450,30 @@ class HomeFragment : BaseFragment<RefactorHomeFragmentBinding>(), View.OnClickLi
                 themeColor = getString(R.string.whiteJoker)
 
             }
-            R.id.rlShoppingSelected -> {
+            R.id.imageTwoLayout -> {
                 isThemeSelected = false
-                val type = Bundle()
-                val intent = Intent(activity?.applicationContext, ViewNotesActivity::class.java)
+                val bundle = Bundle()
+                val intent =
+                    Intent(activity?.applicationContext, CreateShoppingNotesActivity::class.java)
                 intent.putExtra(
-                    NOTESACTIVITY_TYPE_KEY,
-                    NOTESACTIVITY_TYPE_ADD
+                    NOTES_TYPE_KEY,
+                    NOTES_TYPE_ADD
                 )
-                intent.putExtras(type)
+                intent.putExtras(bundle)
                 showNotesTypeDialog.dismiss()
                 startActivity(intent)
             }
-            R.id.rlNoteSelected -> {
+            R.id.imageOneLayout -> {
                 isThemeSelected = false
-                val type = Bundle()
-//            val intent = Intent(getApplicationContext(), EditNotesView::class.java)
-//            intent.putExtra(
-//                addnote.vnps.addnotes.addnotes.view.AddNotesView.NOTESACTIVITY_TYPE_KEY,
-//                addnote.vnps.addnotes.addnotes.view.AddNotesView.NOTESACTIVITY_TYPE_ADD
-//            )
-//            intent.putExtras(type)
-//            startActivity(intent)
-                //     dismiss()
+                val bundle = Bundle()
+                val intent = Intent(activity?.applicationContext, CreateNotesActivity::class.java)
+                intent.putExtra(
+                    NOTES_TYPE_KEY,
+                    NOTES_TYPE_ADD
+                )
+                intent.putExtras(bundle)
+                startActivity(intent)
+                showNotesTypeDialog.dismiss()
             }
             else -> {}
         }

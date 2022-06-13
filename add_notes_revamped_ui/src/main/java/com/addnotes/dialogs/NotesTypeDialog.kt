@@ -20,8 +20,8 @@ class NotesTypeDialog(context: Context, private val dialogListener: DialogSelect
         // activity?.setFinishOnTouchOutside(false)
         setCanceledOnTouchOutside(true)
         setContentView(R.layout.row_type_of_note)
-        findViewById<View>(R.id.rlShoppingSelected).setOnClickListener(this)
-        findViewById<View>(R.id.rlNoteSelected).setOnClickListener(this)
+        findViewById<View>(R.id.imageTwoLayout).setOnClickListener(this)
+        findViewById<View>(R.id.imageOneLayout).setOnClickListener(this)
         show()
     }
 
